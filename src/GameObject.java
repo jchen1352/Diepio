@@ -7,8 +7,6 @@ public abstract class GameObject {
 
 	private double speed;// 0 - 10
 	protected double direction, // degrees or radians
-			x, y, // >= 0
-
 			size, // 10 might be a good size
 			health, // 0 - 100
 			power;// not sure about this...
@@ -18,18 +16,15 @@ public abstract class GameObject {
 	protected Location location;
 
 	public void move() {
-		x += speed * Math.cos(direction);
-
+		location.setX(speed * Math.cos(direction));
+		location.setY(speed * Math.sin(direction));
 		checkOffScreen();
-		// maybe "push" back onto the screen change direction if
-		// this object goes off the screen
 	}
 
 	public abstract void checkOffScreen();
 
 	public Rectangle getBoundingRect() {
-
-		return new Rectangle((int) x, (int) y, (int) size, (int) size);
+		return new Rectangle((int) location.x(), (int) location.y(), (int) size, (int) size);
 	}
 	
 	public abstract void draw(Graphics g);

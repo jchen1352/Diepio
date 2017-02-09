@@ -1,20 +1,27 @@
 
 public class Location {
-
 	
 	private double x,y;
 	
 	public Location(double x, double y){
-		this.x=x;
-		this.y=y;
+		this.x = x;
+		this.y = y;
 	}
 	
-	public double getX(){
+	public double x(){
 		return x;
 	}
 	
-	public double getY(){
+	public double y(){
 		return y;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
 	}
 
 	@Override
