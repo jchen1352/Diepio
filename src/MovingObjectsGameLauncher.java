@@ -17,7 +17,7 @@ public class MovingObjectsGameLauncher {
 		gameFrame.add(mop);
 		gameFrame.pack();
 		gameFrame.setVisible(true);
-		gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }

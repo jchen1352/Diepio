@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,9 +6,7 @@ import java.util.List;
 
 public class DiepIOMap{
 
-	
-
-	private List<GameObject> objects;
+	public List<GameObject> objects;
 	private Tank playerTank;
 	
 	Image backgroundImage;
@@ -16,6 +15,7 @@ public class DiepIOMap{
 		objects = new ArrayList<GameObject>();
 		openBackgroundImage();
 		addTank();
+		playerTank = (Tank) objects.get(0);
 	}
 
 	public void addGameObject(GameObject go) {
@@ -23,17 +23,27 @@ public class DiepIOMap{
 	}
 	
 	private void addTank() {
-		this.addGameObject(new Tank());
-		
+		addGameObject(new Tank(new Location(30,30), 30, 30));
 	}
 	
 	public void openBackgroundImage() {
-		// TODO Auto-generated method stub
 
 	}
 	
 	public void playerShoot() {
-		playerTank.shoot();
+		addGameObject(playerTank.shoot());
+	}
+	
+	public void draw(Graphics g) {
+		for (GameObject go : objects) {
+			go.draw(g);
+		}
+	}
+
+	public void tick() {
+		for (GameObject go : objects) {
+			go.move();
+		}
 	}
 
 }

@@ -3,18 +3,18 @@ import java.awt.Graphics;
 
 public class Bullet extends GameObject {
 
-	
+	public Bullet(Location location, double direction, double speed, double width, double height) {
+		super(location, direction, speed, width, height, null, null);
+	}
 	
 	@Override
 	public void checkOffScreen() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.fillOval((int)location.getX(), (int)location.getY(), (int)width, (int)height);
 	}
 
 }

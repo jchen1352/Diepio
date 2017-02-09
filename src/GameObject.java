@@ -5,20 +5,34 @@ import java.awt.Rectangle;
 
 public abstract class GameObject {
 
-	private double speed;// 0 - 10
-	protected double direction, // degrees or radians
-			x, y, // >= 0
-
-			size, // 10 might be a good size
-			health, // 0 - 100
-			power;// not sure about this...
-	private int level;//
+	protected double speed;// 0 - 10
+	protected double direction; // in radians
+	protected double width; //horizontal width of the object
+	protected double height; // vertical height of the object
+	private double health; // 0 - 100
 	private Color color;
 	private Image img;
 	protected Location location;
 
+	public GameObject(Location location, double direction, double speed, double width, double height,
+			Color color, Image img) {
+		this.location = location;
+		this.direction = direction;
+		this.speed = speed;
+		this.width = width;
+		this.height = height;
+		this.color = color;
+		this.img = img;
+	}
+	
+	public GameObject(Location location, double width, double height) {
+		this(location, 0, 0, width, height, null, null);
+	}
+	
 	public void move() {
-		x += speed * Math.cos(direction);
+		//System.out.println("before move, location is "+location+" and speed is "+speed);
+		location.addVector(speed, direction);
+		//System.out.println("after move, location is "+location+" and speed is "+speed);
 
 		checkOffScreen();
 		// maybe "push" back onto the screen change direction if
@@ -28,8 +42,8 @@ public abstract class GameObject {
 	public abstract void checkOffScreen();
 
 	public Rectangle getBoundingRect() {
-
-		return new Rectangle((int) x, (int) y, (int) size, (int) size);
+		
+		return new Rectangle((int) location.getX(), (int) location.getY(), (int) width, (int) height);
 	}
 	
 	public abstract void draw(Graphics g);
