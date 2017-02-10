@@ -28,7 +28,7 @@ public abstract class GameObject {
 	public GameObject(Location location, double width, double height) {
 		this(location, 0, 0, width, height, null, null);
 	}
-	
+
 	public void move() {
 		//System.out.println("before move, location is "+location+" and speed is "+speed);
 		location.addVector(speed, direction);
@@ -42,10 +42,10 @@ public abstract class GameObject {
 	public abstract void checkOffScreen();
 
 	public Rectangle getBoundingRect() {
-		
 		return new Rectangle((int) location.getX(), (int) location.getY(), (int) width, (int) height);
 	}
 	
 	public abstract void draw(Graphics g);
 
 }
+
