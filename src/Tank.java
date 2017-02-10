@@ -54,7 +54,8 @@ public class Tank extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		g.fillRect((int)location.getX(), (int)location.getY(), (int)width, (int)height);
+		Rectangle bound = getBoundingRect();
+		g.fillRect(bound.x, bound.y, bound.width, bound.height);
 	}
 
 }

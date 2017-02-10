@@ -42,7 +42,9 @@ public abstract class GameObject {
 	public abstract void checkOffScreen();
 
 	public Rectangle getBoundingRect() {
-		return new Rectangle((int) location.getX(), (int) location.getY(), (int) width, (int) height);
+		return new Rectangle((int) (location.getX()-width/2),
+				(int) (location.getY()-height/2),
+				(int) width, (int) height);
 	}
 	
 	public abstract void draw(Graphics g);
