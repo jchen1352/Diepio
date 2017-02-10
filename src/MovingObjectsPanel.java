@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.Graphics2D;
 
 public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 	
@@ -159,6 +160,9 @@ public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.scale(1, -1);
+		g2.translate(0, -getHeight());
 		gm.draw(g);
 	}
 

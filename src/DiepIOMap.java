@@ -51,7 +51,6 @@ public class DiepIOMap {
 		// g.drawLine(xStart, yStart, xEnd, yStart);
 
 		//	Vertical line
-
 		// g.drawLine(xEnd, yStart, xEnd, yEnd);
 		playerTank.aimWeapon(direction);
 	}
@@ -86,6 +85,15 @@ public class DiepIOMap {
 		for (GameObject go : objects) {
 			go.draw(g);
 		}
+		// //	Hypotenuse
+		// g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
+
+		// //	Horizontal line
+		// g.drawLine(xStart, yStart, xEnd, yStart);
+
+		// //	Vertical line
+		// g.drawLine(xEnd, yStart, xEnd, yEnd);
+
 		//	Hypotenuse
 		g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
 

@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 
 public class Bullet extends GameObject {
@@ -14,7 +15,8 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		g.fillOval((int)location.getX(), (int)location.getY(), (int)width, (int)height);
+		Rectangle bound = getBoundingRect();
+		g.fillOval(bound.x, bound.y, bound.width, bound.height);
 	}
 
 }
