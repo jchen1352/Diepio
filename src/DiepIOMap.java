@@ -38,12 +38,17 @@ public class DiepIOMap {
 		xStart = (int) (playerTank.location().getX());
 		yStart = (int) (playerTank.location().getY());
 
-		double hypotenuseLength = Math.sqrt(((Math.pow(xEnd - xStart, 2)) + (Math.pow(yEnd - yStart, 2))));
-		double verticalLength = Math.sqrt((Math.pow(xEnd - xEnd, 2)) + (Math.pow(yEnd - yStart, 2)));
+//		double hypotenuseLength = Math.sqrt(((Math.pow(xEnd - xStart, 2)) + (Math.pow(yEnd - yStart, 2))));
+//		// yEnd - yStart
+//		double verticalLength = Math.sqrt(((Math.pow(xEnd - xEnd, 2)) + (Math.pow(yEnd - yStart, 2))));
+//
+//		double direction = Math.asin(verticalLength / hypotenuseLength);
+		
+		double direction = Math.atan2(yEnd-yStart, xEnd- xStart);
 
-		double direction = Math.asin(verticalLength / hypotenuseLength);
-
-		System.out.println("Hypotenuse: " + hypotenuseLength + " verticalLength: " + verticalLength + " Angle: " + direction);
+//		System.out.println("Hypotenuse: " + hypotenuseLength + " verticalLength: " + verticalLength + " Angle: " + direction);
+		
+		
 		//	Hypotenuse
 		// g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
 
@@ -53,6 +58,7 @@ public class DiepIOMap {
 		//	Vertical line
 
 		// g.drawLine(xEnd, yStart, xEnd, yEnd);
+		
 		playerTank.aimWeapon(direction);
 	}
 
