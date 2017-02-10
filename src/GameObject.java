@@ -49,4 +49,9 @@ public abstract class GameObject {
 	
 	public abstract void draw(Graphics g);
 
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 62c7d083bbdda2bf0d4bc49f480522b134fcd0b0
