@@ -1,27 +1,42 @@
-
 public class Location {
+
 	
-	private double x,y;
+	public double x,y;
 	
 	public Location(double x, double y){
-		this.x = x;
-		this.y = y;
+		this.x=x;
+		this.y=y;
 	}
 	
-	public double x(){
+	public Location(Location other) {
+		x=other.x;
+		y=other.y;
+	}
+	
+	public double getX(){
 		return x;
 	}
 	
-	public double y(){
+	public double getY(){
 		return y;
 	}
-
-	public void setX(double x) {
-		this.x = x;
+	
+	public void addX(double x) {
+		this.x += x;
 	}
-
-	public void setY(double y) {
-		this.y = y;
+	
+	public void addY(double y) {
+		this.y += y;
+	}
+	
+	/**
+	 * Adds a vector defined by magnitude and direction to itself.
+	 * @param magnitude
+	 * @param direction
+	 */
+	public void addVector(double magnitude, double direction) {
+		addX(magnitude*Math.cos(direction));
+		addY(magnitude*Math.sin(direction));
 	}
 
 	@Override
@@ -52,5 +67,9 @@ public class Location {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return "("+x+","+y+")";
+	}
 	
 }

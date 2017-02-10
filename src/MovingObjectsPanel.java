@@ -9,8 +9,9 @@ import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class MovingObjectsPanel extends JPanel {
+public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 	
 	final Dimension defaultDim;// = new Dimension(800,600);
 	private DiepIOMap gm;
@@ -25,6 +26,7 @@ public class MovingObjectsPanel extends JPanel {
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
 		t.start();
+		addMouseMotionListener(this);
 		setUpKeyMappings();
 		setUpClickListener();
 	}
@@ -66,7 +68,7 @@ public class MovingObjectsPanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				clickRelease(arg0);
+				clickedAt(arg0);
 			}
 
 		});
@@ -77,107 +79,79 @@ public class MovingObjectsPanel extends JPanel {
 		repaint();
 	}
 
-	protected void clickRelease(MouseEvent arg0) {
-		gm.playerShoot();
-		repaint();
-	}
+  	public void mouseMoved(MouseEvent e) {
+       gm.mouseMoved(e);
+       repaint();
+    }
+
+    public void mouseDragged(MouseEvent e) {
+    }
 	
 	private void setUpKeyMappings() {
-		// maps keys with actions...
-		//  The code below maps a KeyStroke to an action to be performed
-		// In this case I mapped the space bar key to the action named "shoot"
-		// Whenever someone hits the Space Bar the action shoot is sent out
-
-		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M , 0, false),"shoot");
-		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M, 0, true),"stopShoot");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W , 0, false),"forward");
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true),"stopForward");
+		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true),"stopForward");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false),"left");
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true),"stopLeft");
+		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true),"stopLeft");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false),"reverse");
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true),"stopReverse");
+		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true),"stopReverse");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false),"right");
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true),"stopRight");
-			
-		// this.getActionMap().put("shoot",new AbstractAction(){
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		// TODO Auto-generated method stub
-		// 		gm.playerShoot();
-		// 	}
-		// });	
-		// this.getActionMap().put("stopShoot",new AbstractAction(){
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		// TODO Auto-generated method stub
-		// 		gm.playerShoot();
-		// 	}
-		// });
+		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true),"stopRight");
 
 		this.getActionMap().put("forward",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.playerForward();
 			}
 		});	
-		this.getActionMap().put("stopForward",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				// gm.playerForward();
-				gm.playerForward();
-			}
-		});		
+		// this.getActionMap().put("stopForward",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.playerForward();
+		// 	}
+		// });		
 
 		this.getActionMap().put("left",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.playerLeft();
 			}
 		});		
-		this.getActionMap().put("stopLeft",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				gm.playerLeft();
-			}
-		});	
+		// this.getActionMap().put("stopLeft",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.playerLeft();
+		// 	}
+		// });	
 
 		this.getActionMap().put("reverse",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.playerReverse();
 			}
 		});		
-		this.getActionMap().put("stopReverse",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				gm.playerReverse();
-			}
-		});	
+		// this.getActionMap().put("stopReverse",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.playerReverse();
+		// 	}
+		// });	
 
 		this.getActionMap().put("right",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.playerRight();
 			}
 		});
-		this.getActionMap().put("stopRight",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				gm.playerRight();
-			}
-		});
+		// this.getActionMap().put("stopRight",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.playerRight();
+		// 	}
+		// });
 
 		this.requestFocusInWindow();		
 	}
