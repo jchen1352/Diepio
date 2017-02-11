@@ -1,14 +1,15 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-
 public class Tank extends GameObject {
 
 	private Weapon weapon;
-	
+	private double health;
+
 	public Tank(Location location, double width, double height) {
 		super(location, width, height);
 		weapon = new Weapon(direction);
+		health = 100;
 	}
 
 	public Bullet shoot() {
@@ -49,7 +50,9 @@ public class Tank extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		// TODO Auto-generated method stub
+		if (!location.inMap(new Rectangle(MAP_DIMENSION))) {
+			direction -= Math.PI;	// Turn the tank around
+		}
 	}
 
 	@Override
