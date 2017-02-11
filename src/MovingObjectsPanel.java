@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.Graphics2D;
 
-public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
+public class MovingObjectsPanel extends JPanel {
 	
 	final Dimension defaultDim;// = new Dimension(800,600);
 	private DiepIOMap gm;
@@ -27,13 +27,13 @@ public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
 		t.start();
-		addMouseMotionListener(this);
+		setupMouseMotionListener();
 		setUpKeyMappings();
 		setUpClickListener();
 	}
 	private void makeGameMap() {
 		gm = new DiepIOMap();
-		t = new Timer(10, new ActionListener() {// fires off every 10 ms
+		t = new Timer(11, new ActionListener() {// fires off every 10 ms
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				gm.tick();// I tell the GameMap to tick... do what
@@ -43,11 +43,26 @@ public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 		});
 	}
 
+	private void setupMouseMotionListener() {
+		this.addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+       			gm.mouseMoved(e);
+       			repaint();
+    		}
+
+    		@Override
+   			public void mouseDragged(MouseEvent e) {
+   				gm.mouseMoved(e);
+       			repaint();
+    		}
+		});
+	}
+
 	private void setUpClickListener() {
 		this.requestFocusInWindow();
 		this.addMouseListener(new MouseListener() {
 
-			//	If you want to detect mouse dragging, then use a mouseMotionListener
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
@@ -64,29 +79,18 @@ public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 
 			@Override
 			public void mousePressed(MouseEvent click) {
-				clickedAt(click);
+				gm.playerShoot();
+				repaint();
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				clickedAt(arg0);
+				gm.playerShoot();
+				repaint();		
 			}
 
 		});
 	}
-
-	protected void clickedAt(MouseEvent click) {
-		gm.playerShoot();
-		repaint();
-	}
-
-  	public void mouseMoved(MouseEvent e) {
-       gm.mouseMoved(e);
-       repaint();
-    }
-
-    public void mouseDragged(MouseEvent e) {
-    }
 	
 	private void setUpKeyMappings() {
 
@@ -161,8 +165,8 @@ public class MovingObjectsPanel extends JPanel implements MouseMotionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.scale(1, -1);
-		g2.translate(0, -getHeight());
+		// g2.scale(1, -1);
+		// g2.translate(0, -getHeight());
 		gm.draw(g);
 	}
 
