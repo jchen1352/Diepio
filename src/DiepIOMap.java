@@ -3,19 +3,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.Dimension;
+import java.util.Iterator;
 
 public class DiepIOMap {
 
-	public List<GameObject> objects;
-	private Tank playerTank;
-	
+	private static List<GameObject> objects;
+	private static Tank playerTank;
+	private static final Dimension MAP_DIMENSION = new Dimension(4000,3000);
+
 	Image backgroundImage;
 	
 	public DiepIOMap() {
-		objects = new ArrayList<GameObject>();
-		openBackgroundImage();
-		addTank();
-		playerTank = (Tank) objects.get(0);
+		if (objects == null) {
+			objects = new ArrayList<GameObject>();
+			openBackgroundImage();
+			addTank();
+			playerTank = (Tank) objects.get(0);
+		}
 	}
 
 	public void addGameObject(GameObject go) {
@@ -37,30 +42,8 @@ public class DiepIOMap {
 
 		xStart = (int) (playerTank.location().getX());
 		yStart = (int) (playerTank.location().getY());
-
-//		double hypotenuseLength = Math.sqrt(((Math.pow(xEnd - xStart, 2)) + (Math.pow(yEnd - yStart, 2))));
-//		// yEnd - yStart
-//		double verticalLength = Math.sqrt(((Math.pow(xEnd - xEnd, 2)) + (Math.pow(yEnd - yStart, 2))));
-//
-//		double direction = Math.asin(verticalLength / hypotenuseLength);
-		
-		double direction = Math.atan2(yEnd-yStart, xEnd- xStart);
-
-//		System.out.println("Hypotenuse: " + hypotenuseLength + " verticalLength: " + verticalLength + " Angle: " + direction);
-		
-		
-		//	Hypotenuse
-		// g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
-
-		// Horizontal line
-		// g.drawLine(xStart, yStart, xEnd, yStart);
-
-		//	Vertical line
-
-		// g.drawLine(xEnd, yStart, xEnd, yEnd);
-		
-		
-		playerTank.aimWeapon(direction);
+						
+		playerTank.aimWeapon(Math.atan2(yEnd - yStart, xEnd - xStart));
 	}
 
 	public void tick() {
@@ -89,18 +72,26 @@ public class DiepIOMap {
 		playerTank.reverse();
 	}
 
+	public Dimension dimensions() {
+		return MAP_DIMENSION;
+	}
+
+	public void removeFromObjects(GameObject go) {
+		Iterator<GameObject> iter = objects.iterator();
+		while (iter.hasNext()) {
+			GameObject gameObject = iter.next();
+			if (gameObject.equals(go)) {
+				iter.remove();
+				return;
+			}
+		}
+		// objects.remove(go);
+	}
+
 	public void draw(Graphics g) {
 		for (GameObject go : objects) {
 			go.draw(g);
 		}
-		// //	Hypotenuse
-		// g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
-
-		// //	Horizontal line
-		// g.drawLine(xStart, yStart, xEnd, yStart);
-
-		// //	Vertical line
-		// g.drawLine(xEnd, yStart, xEnd, yEnd);
 
 		//	Hypotenuse
 		g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
