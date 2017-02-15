@@ -10,13 +10,13 @@ public abstract class GameObject {
 	protected double direction; // in radians
 	protected double width; //horizontal width of the object
 	protected double height; // vertical height of the object
-	private double health; // 0 - 100
+	protected double health; // 0 - 100
 	private Color color;
 	private Image img;
 	protected Location location;
 
 	protected static Dimension mapDimensions;
-	private static DiepIOMap map;
+	protected static DiepIOMap map;
 
 	public GameObject(Location location, double direction, double speed, double width, double height,
 			Color color, Image img) {
@@ -32,7 +32,6 @@ public abstract class GameObject {
 			map = new DiepIOMap();	
 		}
 		mapDimensions = map.dimensions();
-
 	}
 	
 	public GameObject(Location location, double width, double height) {
@@ -47,13 +46,13 @@ public abstract class GameObject {
 		checkOffScreen();
 		// maybe "push" back onto the screen change direction if
 		// this object goes off the screen
+
+		checkCollision();
 	}
+
+	public abstract void checkCollision();
 
 	public abstract void checkOffScreen();
-
-	public void removeFromMap() {
-		map.removeFromObjects(this);
-	}
 
 	public Rectangle getBoundingRect() {
 		return new Rectangle((int) (location.getX()-width/2),

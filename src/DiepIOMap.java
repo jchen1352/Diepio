@@ -12,6 +12,8 @@ public class DiepIOMap {
 	private static Tank playerTank;
 	private static final Dimension MAP_DIMENSION = new Dimension(4000,3000);
 
+	private static List<GameObject> removeObjects;
+
 	Image backgroundImage;
 	
 	public DiepIOMap() {
@@ -20,6 +22,7 @@ public class DiepIOMap {
 			openBackgroundImage();
 			addTank();
 			playerTank = (Tank) objects.get(0);
+			removeObjects = new ArrayList<>();
 		}
 	}
 
@@ -29,6 +32,7 @@ public class DiepIOMap {
 	
 	private void addTank() {
 		addGameObject(new Tank(new Location(30,30), 30, 30));
+		addGameObject(new Tank(new Location(80,30), 30, 30));
 	}
 	
 	public void openBackgroundImage() {
@@ -50,6 +54,7 @@ public class DiepIOMap {
 		for (GameObject go : objects) {
 			go.move();
 		}
+		removeFromObjects();
 	}
 	
 	public void playerShoot() {
@@ -76,15 +81,27 @@ public class DiepIOMap {
 		return MAP_DIMENSION;
 	}
 
-	public void removeFromObjects(GameObject go) {
+	public void removeFromObjects() {
+		if (removeObjects.size() <= 0) { return; } 
 		Iterator<GameObject> iter = objects.iterator();
 		while (iter.hasNext()) {
 			GameObject gameObject = iter.next();
-			if (gameObject.equals(go)) {
-				iter.remove();
+			for (GameObject go : removeObjects) {
+				if (gameObject.equals(go)) {
+					iter.remove();
+					return;
+				}
 			}
 		}
-		// objects.remgove(go);
+		// objects.remove(go);
+	}
+
+	public void addToRemoveObjects(GameObject go) {
+		removeObjects.add(go);
+	}
+
+	public List<GameObject> objects() {
+		return objects;
 	}
 
 	public void draw(Graphics g) {

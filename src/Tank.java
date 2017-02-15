@@ -1,5 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.Point;
+import java.util.List;
 
 public class Tank extends GameObject {
 
@@ -8,6 +10,7 @@ public class Tank extends GameObject {
 	public Tank(Location location, double width, double height) {
 		super(location, width, height);
 		weapon = new Weapon(direction);
+		health = 100;
 	}
 
 	public Bullet shoot() {
@@ -45,6 +48,28 @@ public class Tank extends GameObject {
 	public Location location() {
 		return location;
 	}
+
+	@Override
+	public void checkCollision() {
+		for (int i = 1; i < map.objects().size(); i++) {
+			Rectangle rect = map.objects().get(i).getBoundingRect();
+			if (this.getBoundingRect().contains(new Point(rect.x, rect.y))) { return; }
+			if ((this.getBoundingRect().getBounds().intersects(rect.getBounds()))) {
+				this.health -= 5;
+				map.objects().get(i).health -= 5;
+				System.out.println("Health: " + health);
+
+				if (this.health == 0) {
+					map.addToRemoveObjects(this);
+				} 
+				if (map.objects().get(i).health == 0) {
+					map.addToRemoveObjects(map.objects().get(i));
+				}
+				return;
+			}
+		}
+	}
+
 
 	@Override
 	public void checkOffScreen() {

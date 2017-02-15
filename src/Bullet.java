@@ -5,13 +5,19 @@ public class Bullet extends GameObject {
 
 	public Bullet(Location location, double direction, double speed, double width, double height) {
 		super(location, direction, speed, width, height, null, null);
+		health = 5;
 	}
 	
 	@Override
 	public void checkOffScreen() {
 		if (!location.inMap(new Rectangle(mapDimensions))) {
-			removeFromMap();
+			map.addToRemoveObjects(this);
 		}
+	}
+
+	@Override
+	public void checkCollision() {
+
 	}
 
 	@Override
