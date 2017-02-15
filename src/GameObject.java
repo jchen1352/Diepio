@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 
 public abstract class GameObject {
@@ -14,6 +15,9 @@ public abstract class GameObject {
 	private Image img;
 	protected Location location;
 
+	protected static Dimension mapDimensions;
+	private static DiepIOMap map;
+
 	public GameObject(Location location, double direction, double speed, double width, double height,
 			Color color, Image img) {
 		this.location = location;
@@ -23,6 +27,12 @@ public abstract class GameObject {
 		this.height = height;
 		this.color = color;
 		this.img = img;
+
+		if (map == null) {
+			map = new DiepIOMap();	
+		}
+		mapDimensions = map.dimensions();
+
 	}
 	
 	public GameObject(Location location, double width, double height) {
@@ -41,6 +51,10 @@ public abstract class GameObject {
 
 	public abstract void checkOffScreen();
 
+	public void removeFromMap() {
+		map.removeFromObjects(this);
+	}
+
 	public Rectangle getBoundingRect() {
 		return new Rectangle((int) (location.getX()-width/2),
 				(int) (location.getY()-height/2),
@@ -48,10 +62,6 @@ public abstract class GameObject {
 	}
 	
 	public abstract void draw(Graphics g);
-
-<<<<<<< HEAD
-}
-=======
 }
 
->>>>>>> 62c7d083bbdda2bf0d4bc49f480522b134fcd0b0
+

@@ -82,10 +82,9 @@ public class DiepIOMap {
 			GameObject gameObject = iter.next();
 			if (gameObject.equals(go)) {
 				iter.remove();
-				return;
 			}
 		}
-		// objects.remove(go);
+		// objects.remgove(go);
 	}
 
 	public void draw(Graphics g) {

@@ -1,23 +1,25 @@
-public class Location {
+import java.awt.Point;
+import java.awt.Rectangle;
 
+public class Location {
 	
 	public double x,y;
 	
 	public Location(double x, double y){
-		this.x=x;
-		this.y=y;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public Location(Location other) {
-		x=other.x;
-		y=other.y;
+		x = other.x;
+		y = other.y;
 	}
 	
-	public double getX(){
+	public double getX() {
 		return x;
 	}
 	
-	public double getY(){
+	public double getY() {
 		return y;
 	}
 	
@@ -35,8 +37,15 @@ public class Location {
 	 * @param direction
 	 */
 	public void addVector(double magnitude, double direction) {
-		addX(magnitude*Math.cos(direction));
-		addY(magnitude*Math.sin(direction));
+		addX(magnitude * Math.cos(direction));
+		addY(magnitude * Math.sin(direction));
+	}
+
+	public boolean inMap(Rectangle rect) {
+		if (rect.contains(new Point((int) x, (int) y))) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

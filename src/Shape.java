@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 
-
 public class Shape extends GameObject {
 
 	public enum Type {
