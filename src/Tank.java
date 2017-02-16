@@ -55,7 +55,7 @@ public class Tank extends GameObject {
 			GameObject go = map.objects().get(i);
 
 			// if (this == go) { return; }
-			if (this.getBoundingRect().contains(new Point((((int) go.getBoundingRect().x) + (width / 2)), (int) ((go.getBoundingRect().y) - (height / 2) )))) { return; }
+			if (this.getBoundingRect().getBounds().intersects(go.getBoundingRect().getBounds())) { return; }
 
 			if (this.getBoundingRect().intersects(go.getBoundingRect())) {
 				this.health -= 5;
