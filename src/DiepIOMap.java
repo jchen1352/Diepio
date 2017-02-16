@@ -54,6 +54,7 @@ public class DiepIOMap {
 		for (GameObject go : objects) {
 			go.move();
 		}
+
 		removeFromObjects();
 	}
 	
@@ -93,11 +94,14 @@ public class DiepIOMap {
 				}
 			}
 		}
-		// objects.remove(go);
 	}
 
 	public void addToRemoveObjects(GameObject go) {
 		removeObjects.add(go);
+	}
+
+	public void addShapes() {
+		
 	}
 
 	public List<GameObject> objects() {

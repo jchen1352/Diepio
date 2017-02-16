@@ -51,32 +51,28 @@ public class Tank extends GameObject {
 
 	@Override
 	public void checkCollision() {
-		for (GameObject go : map.objects()) {
+		for (int i = 1; i < map.objects().size(); i++) {
+			GameObject go = map.objects().get(i);
 
+			// if (this == go) { return; }
 			if (this.getBoundingRect().contains(new Point(go.getBoundingRect().x, go.getBoundingRect().y))) { return; }
 
-			
 			if (this.getBoundingRect().getBounds().intersects(go.getBoundingRect().getBounds())) {
 				this.health -= 5;
+				go.health -= 5;
+
 				System.out.println("this.health: " + this.health);
+				System.out.println("go.health: " + go.health);
+
 				if (this.health == 0) {
 					map.addToRemoveObjects(this);
-					return;
-				}
-
-			} if (go.getBoundingRect().getBounds().intersects(this.getBoundingRect().getBounds())) {
-				go.health -=5;
-
-				System.out.println("go.health: " + go.health);
+				}  
 				if (go.health == 0) {
 					map.addToRemoveObjects(go);
-					return;
 				}
+				return;
 			} 
-			
-
 		}
-
 	}
 
 

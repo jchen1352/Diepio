@@ -17,7 +17,7 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void checkCollision() {
-
+		
 	}
 
 	@Override
