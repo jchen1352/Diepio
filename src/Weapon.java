@@ -2,8 +2,11 @@ public class Weapon {
 
 	private double direction; //the direction the weapon is facing
 	
+	private Location location;
+
 	public Weapon(double direction) {
 		this.direction = direction;
+
 	}
 	
 	/**
@@ -14,10 +17,11 @@ public class Weapon {
 	 * @return the bullet that was created
 	 */
 	public Bullet shoot(Location location, double speed) {
-		return new Bullet(location, this.direction, speed, 5, 5);
+		return new Bullet(this.location, this.direction, speed, 5, 5);
 	}
 
 	public void aim(double direction) {
+
 		this.direction = direction;
 	}
 	

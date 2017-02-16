@@ -22,6 +22,11 @@ public class Shape extends GameObject {
 	}
 	
 	@Override
+	public void checkCollision() {
+		
+	}
+
+	@Override
 	public void checkOffScreen() {
 		// TODO Auto-generated method stub
 

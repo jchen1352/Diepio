@@ -55,9 +55,9 @@ public class Tank extends GameObject {
 			GameObject go = map.objects().get(i);
 
 			// if (this == go) { return; }
-			if (this.getBoundingRect().contains(new Point(go.getBoundingRect().x, go.getBoundingRect().y))) { return; }
+			if (this.getBoundingRect().contains(new Point((((int) go.getBoundingRect().x) + (width / 2)), (int) ((go.getBoundingRect().y) - (height / 2) )))) { return; }
 
-			if (this.getBoundingRect().getBounds().intersects(go.getBoundingRect().getBounds())) {
+			if (this.getBoundingRect().intersects(go.getBoundingRect())) {
 				this.health -= 5;
 				go.health -= 5;
 
@@ -86,7 +86,8 @@ public class Tank extends GameObject {
 	@Override
 	public void draw(Graphics g) {
 		Rectangle bound = getBoundingRect();
-		g.fillRect(bound.x, bound.y, bound.width, bound.height);
+		g.drawRect(bound.x, bound.y, bound.width, bound.height);
+		// g.fillRect(bound.x, bound.y, bound.width, bound.height);
 	}
 
 }
