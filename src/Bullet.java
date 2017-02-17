@@ -1,4 +1,4 @@
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Bullet extends GameObject {
@@ -16,12 +16,8 @@ public class Bullet extends GameObject {
 	}
 
 	@Override
-	public void checkCollision() {
-
-	}
-
-	@Override
-	public void draw(Graphics g) {
+	public void draw(Graphics2D g) {
+		g.setcolor(Color.BLACK);
 		Rectangle bound = getBoundingRect();
 		g.fillOval(bound.x, bound.y, bound.width, bound.height);
 	}

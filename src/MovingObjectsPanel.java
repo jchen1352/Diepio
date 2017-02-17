@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class MovingObjectsPanel extends JPanel {
 	
@@ -23,7 +24,7 @@ public class MovingObjectsPanel extends JPanel {
 	}
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
-		gm = new DiepIOMap();
+		gm = new DiepIOMap(defaultDim);
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
 		t.start();
@@ -31,8 +32,9 @@ public class MovingObjectsPanel extends JPanel {
 		setUpKeyMappings();
 		setUpClickListener();
 	}
+
 	private void makeGameMap() {
-		gm = new DiepIOMap();
+		gm = new DiepIOMap(defaultDim);
 		t = new Timer(11, new ActionListener() {// fires off every 10 ms
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -111,13 +113,7 @@ public class MovingObjectsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				gm.playerForward();
 			}
-		});	
-		// this.getActionMap().put("stopForward",new AbstractAction(){
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		gm.playerForward();
-		// 	}
-		// });		
+		});		
 
 		this.getActionMap().put("left",new AbstractAction(){
 			@Override
@@ -125,12 +121,6 @@ public class MovingObjectsPanel extends JPanel {
 				gm.playerLeft();
 			}
 		});		
-		// this.getActionMap().put("stopLeft",new AbstractAction(){
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		gm.playerLeft();
-		// 	}
-		// });	
 
 		this.getActionMap().put("reverse",new AbstractAction(){
 			@Override
@@ -138,12 +128,6 @@ public class MovingObjectsPanel extends JPanel {
 				gm.playerReverse();
 			}
 		});		
-		// this.getActionMap().put("stopReverse",new AbstractAction(){
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		gm.playerReverse();
-		// 	}
-		// });	
 
 		this.getActionMap().put("right",new AbstractAction(){
 			@Override
@@ -151,12 +135,6 @@ public class MovingObjectsPanel extends JPanel {
 				gm.playerRight();
 			}
 		});
-		// this.getActionMap().put("stopRight",new AbstractAction(){
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		gm.playerRight();
-		// 	}
-		// });
 
 		this.requestFocusInWindow();		
 	}
@@ -167,7 +145,9 @@ public class MovingObjectsPanel extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		// g2.scale(1, -1);
 		// g2.translate(0, -getHeight());
-		gm.draw(g);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		gm.draw(g2);
 	}
 
 }

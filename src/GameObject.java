@@ -1,8 +1,9 @@
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Point;
 
 public abstract class GameObject {
 
@@ -50,7 +51,30 @@ public abstract class GameObject {
 		checkCollision();
 	}
 
-	public abstract void checkCollision();
+	public void checkCollision() {
+		for (int i = 1; i < map.objects().size(); i++) {
+			GameObject go = map.objects().get(i);
+
+			/*
+			 * Check if the GameObject is a bullet by checking if the GameObject is originating 
+			 * from within 'this', if it is then return becuase we don't want a tank to shoot itself
+			 */
+			if (this.getBoundingRect().contains(new Point(go.getBoundingRect().x, go.getBoundingRect().y))) { return; }
+
+			if (this.getBoundingRect().intersects(go.getBoundingRect())) {
+				this.health -= 5;
+				go.health -=5;
+
+				if (this.health == 0) {
+					map.addToRemoveObjects(this);
+				}  
+				if (go.health == 0) {
+					map.addToRemoveObjects(go);
+				}
+				return;
+			} 
+		}
+	}
 
 	public abstract void checkOffScreen();
 
@@ -60,7 +84,7 @@ public abstract class GameObject {
 				(int) width, (int) height);
 	}
 	
-	public abstract void draw(Graphics g);
+	public abstract void draw(Graphics2D g);
 }
 
 
