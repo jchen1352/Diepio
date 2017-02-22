@@ -105,22 +105,22 @@ public class MovingObjectsPanel extends JPanel {
 	
 	private void setUpKeyMappings() {
 
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W , 0, false),"forward");
-		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true),"stopForward");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W , 0, false),"up");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true),"stopUp");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false),"left");
-		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true),"stopLeft");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true),"stopLeft");
 
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false),"reverse");
-		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true),"stopReverse");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false),"down");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true),"stopDown");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false),"right");
-		// this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true),"stopRight");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true),"stopRight");
 
-		this.getActionMap().put("forward",new AbstractAction(){
+		this.getActionMap().put("up",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerForward();
+				gm.playerUp();
 			}
 		});		
 
@@ -131,10 +131,10 @@ public class MovingObjectsPanel extends JPanel {
 			}
 		});		
 
-		this.getActionMap().put("reverse",new AbstractAction(){
+		this.getActionMap().put("down",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerReverse();
+				gm.playerDown();
 			}
 		});		
 
@@ -142,6 +142,34 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				gm.playerRight();
+			}
+		});
+		
+		this.getActionMap().put("stopUp",new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.playerStopUp();
+			}
+		});		
+
+		this.getActionMap().put("stopLeft",new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.playerStopLeft();
+			}
+		});		
+
+		this.getActionMap().put("stopDown",new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.playerStopDown();
+			}
+		});		
+
+		this.getActionMap().put("stopRight",new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.playerStopRight();
 			}
 		});
 

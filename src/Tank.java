@@ -17,28 +17,52 @@ public class Tank extends GameObject {
 		return weapon.shoot(new Location(location), 5);		
 	}
 
-	public void forward() {
+	public void up() {
 		speed = 1;
-		direction = -1.57;
-		this.move();
+		direction = -Math.PI/2;
+		//this.move();
 	}
 
 	public void left() {
 		speed = 1;
-		direction = 3.14;
-		this.move();
+		direction = Math.PI;
+		//this.move();
 	}
 
-	public void reverse() {
+	public void down() {
 		speed = 1;
-		direction = 1.57;
-		this.move();
+		direction = Math.PI/2;
+		//this.move();
 	}
 	
 	public void right() {
 		speed = 1;
 		direction = 0;
-		this.move();
+		//this.move();
+	}
+	
+	public void stopUp() {
+		if (direction == -Math.PI/2) {
+			speed = 0;
+		}
+	}
+	
+	public void stopLeft() {
+		if (direction == Math.PI) {
+			speed = 0;
+		}
+	}
+	
+	public void stopDown() {
+		if (direction == Math.PI/2) {
+			speed = 0;
+		}
+	}
+	
+	public void stopRight() {
+		if (direction == 0) {
+			speed = 0;
+		}
 	}
 
 	public void aimWeapon(double direction) {
