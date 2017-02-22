@@ -2,9 +2,11 @@ public class Weapon {
 
 	private double direction; //the direction the weapon is facing
 	private Location location;
+	private Tank owner;
 	
-	public Weapon(double direction) {
+	public Weapon(double direction, Tank owner) {
 		this.direction = direction;
+		this.owner = owner;
 	}
 	
 	/**
@@ -15,7 +17,7 @@ public class Weapon {
 	 * @return the bullet that was created
 	 */
 	public Bullet shoot(Location location, double speed) {
-		return new Bullet(location, this.direction, speed, 5, 5);
+		return new Bullet(location, this.direction, speed, 5, 5, owner, owner.getMap());
 	}
 
 	public void aim(double direction) {

@@ -1,5 +1,6 @@
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.Color;
 
 public class Shape extends GameObject {
@@ -7,8 +8,8 @@ public class Shape extends GameObject {
 	private Location location;
 	private Type type;
 
-	public Shape(Location location, Type type) {
-		super(location, type.width, type.height);
+	public Shape(Location location, Type type, DiepIOMap map) {
+		super(location, type.width, type.height, map);
 		this.location = location;
 		this.type = type;
 
@@ -51,6 +52,27 @@ public class Shape extends GameObject {
 		}
 
 		g.fillPolygon(shape);
+		Rectangle boundingRect = getBoundingRect();
+		g.drawRect(boundingRect.x, boundingRect.y, boundingRect.width, boundingRect.height);
+	}
+
+	@Override
+	public void checkCollision() {
+		for (int i = 0; i < map.objects().size(); i++) {
+			GameObject go = map.objects().get(i);
+			if (this==go) {
+				//System.out.println("No colliding with yourself");
+				continue;
+			}
+			
+			if (go instanceof Bullet) {
+				//System.out.println("Bullet at "+go.location+" intersects with shape at "+location+":"+getBoundingRect().intersects(go.getBoundingRect()));
+			}
+			if (getBoundingRect().intersects(go.getBoundingRect())) {
+				health -= 5;
+				//System.out.println("Shape at "+location+" took damage");
+			}
+		}
 	}
 
 }

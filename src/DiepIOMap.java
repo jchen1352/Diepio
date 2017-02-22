@@ -13,39 +13,24 @@ import java.awt.Color;
 
 public class DiepIOMap {
 
-	private static List<GameObject> objects;
-	private static List<GameObject> removeObjects;
-	private static Tank playerTank;
+	private List<GameObject> objects;
+	private Tank playerTank;
 
-	private static final Dimension MAP_DIMENSION = new Dimension(4000,3000);
-	private static final int NUM_SHAPES = 450;
+	//private static final Dimension MAP_DIMENSION = new Dimension(400,300);
+	private static final int NUM_SHAPES = 100;
 	private static final String BACKGROUND_IMAGE_FILE_NAME = "";
 	private static final int NUM_OPPONENTS = 100;
 
-	private static Dimension panelDimension;
+	private Dimension panelDimension;
 	private static Image backgroundImage;
 
 	public DiepIOMap(Dimension panelDimension) {
-		if (objects == null) {
-			objects = new ArrayList<GameObject>();
-			openBackgroundImage();
-			addTank();
-			playerTank = (Tank) objects.get(0);
-			removeObjects = new ArrayList<>();
-			addShapes();
-			this.panelDimension = panelDimension;
-		}
-	}
-
-	public DiepIOMap() {
-		if (objects == null) {
-			objects = new ArrayList<GameObject>();
-			openBackgroundImage();
-			addTank();
-			playerTank = (Tank) objects.get(0);
-			removeObjects = new ArrayList<>();
-			addShapes();
-		}
+		this.panelDimension = panelDimension;
+		objects = new ArrayList<GameObject>();
+		openBackgroundImage();
+		addTank();
+		playerTank = (Tank) objects.get(0);
+		addShapes();
 	}
 
 	public void addGameObject(GameObject go) {
@@ -53,7 +38,7 @@ public class DiepIOMap {
 	}
 	
 	private void addTank() {
-		addGameObject(new Tank(new Location(30,30), 30, 30));
+		addGameObject(new Tank(new Location(30,30), 30, 30, this));
 	}
 	
 	public void openBackgroundImage() {
@@ -84,6 +69,10 @@ public class DiepIOMap {
 		for (GameObject go : objects) {
 			go.move();
 		}
+		for (GameObject go : objects) {
+			go.checkCollision();
+			go.checkHealth();
+		}
 
 		removeFromObjects();
 	}
@@ -109,38 +98,41 @@ public class DiepIOMap {
 	}
 
 	public Dimension dimensions() {
-		return MAP_DIMENSION;
+		return panelDimension;
 	}
 
 	public void removeFromObjects() {
-		if (removeObjects.size() <= 0) { return; } 
-		Iterator<GameObject> iter = objects.iterator();
-		while (iter.hasNext()) {
-			GameObject gameObject = iter.next();
-			for (GameObject go : removeObjects) {
-				if (gameObject.equals(go)) {
-					iter.remove();
-					return;
-				}
+		int i = 0;
+		while (i < objects.size()) {
+			if (objects.get(i).shouldRemove()) {
+				objects.remove(i);
+			}
+			else {
+				i++;
 			}
 		}
-	}
-
-	public void addToRemoveObjects(GameObject go) {
-		removeObjects.add(go);
+//		while (iter.hasNext()) {
+//			GameObject gameObject = iter.next();
+//			for (GameObject go : removeObjects) {
+//				if (gameObject.equals(go)) {
+//					iter.remove();
+//					return;
+//				}
+//			}
+//		}
 	}
 
 	public void addShapes() {
 		for (int i = 0; i < NUM_SHAPES; i++) {
-			switch ((int) (Math.random() * 3)) {
+			switch ((int) (Math.random()*3)) {
 				case 0:
-					objects.add(new Shape(new Location((int) (Math.random() * MAP_DIMENSION.width), (int) (Math.random() * MAP_DIMENSION.height)), Type.SQUARE));
+					objects.add(new Shape(new Location((int) (Math.random() * panelDimension.width), (int) (Math.random() * panelDimension.height)), Type.SQUARE, this));
 					break;
 				case 1:
-					objects.add(new Shape(new Location((int) (Math.random() * MAP_DIMENSION.width), (int) (Math.random() * MAP_DIMENSION.height)), Type.TRIANGLE));
+					objects.add(new Shape(new Location((int) (Math.random() * panelDimension.width), (int) (Math.random() * panelDimension.height)), Type.TRIANGLE, this));
 					break;
 				case 2:
-					objects.add(new Shape(new Location((int) (Math.random() * MAP_DIMENSION.width), (int) (Math.random() * MAP_DIMENSION.height)), Type.PENTAGON));
+					objects.add(new Shape(new Location((int) (Math.random() * panelDimension.width), (int) (Math.random() * panelDimension.height)), Type.PENTAGON, this));
 					break;
 			}
 		}

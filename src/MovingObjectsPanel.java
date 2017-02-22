@@ -19,12 +19,9 @@ public class MovingObjectsPanel extends JPanel {
 	private DiepIOMap gm;
 	private Timer t;
 
-	public MovingObjectsPanel() {
-		this( new Dimension(800,600));
-	}
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
-		gm = new DiepIOMap(defaultDim);
+		System.out.println(defaultDim);
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
 		t.start();

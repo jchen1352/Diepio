@@ -7,9 +7,9 @@ public class Tank extends GameObject {
 
 	private Weapon weapon;
 
-	public Tank(Location location, double width, double height) {
-		super(location, width, height);
-		weapon = new Weapon(direction);
+	public Tank(Location location, double width, double height, DiepIOMap map) {
+		super(location, width, height, map);
+		weapon = new Weapon(direction, this);
 		health = 100;
 	}
 
@@ -51,7 +51,7 @@ public class Tank extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		if (!location.inMap(new Rectangle(mapDimensions))) {
+		if (!location.inMap(new Rectangle(map.dimensions()))) {
 			direction -= Math.PI;	// Turn the tank around
 		}
 	}
@@ -62,6 +62,32 @@ public class Tank extends GameObject {
 		Rectangle bound = getBoundingRect();
 		g.fillRect(bound.x, bound.y, bound.width, bound.height);
 		// g.fillRect(bound.x, bound.y, bound.width, bound.height);
+		Rectangle boundingRect = getBoundingRect();
+		g.drawRect(boundingRect.x, boundingRect.y, boundingRect.width, boundingRect.height);
+	}
+
+	@Override
+	public void checkCollision() {
+		for (int i = 0; i < map.objects().size(); i++) {
+			GameObject go = map.objects().get(i);
+			if (this==go) continue;
+			if (go instanceof Bullet) {
+				checkCollision((Bullet) go);
+				continue;
+			}
+			if (getBoundingRect().intersects(go.getBoundingRect())) {
+				health -= 5;
+			}
+		}
+	}
+	
+	private void checkCollision(Bullet b) {
+		if (b.isOwner(this)) {
+			return;
+		}
+		if (getBoundingRect().intersects(b.getBoundingRect())) {
+			health -= 5;
+		}
 	}
 
 }

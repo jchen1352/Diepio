@@ -15,12 +15,11 @@ public abstract class GameObject {
 	private Color color;
 	private Image img;
 	protected Location location;
-
-	protected static Dimension mapDimensions;
-	protected static DiepIOMap map;
+	private boolean shouldRemove;
+	protected DiepIOMap map;
 
 	public GameObject(Location location, double direction, double speed, double width, double height,
-			Color color, Image img) {
+			Color color, Image img, DiepIOMap map) {
 		this.location = location;
 		this.direction = direction;
 		this.speed = speed;
@@ -28,15 +27,14 @@ public abstract class GameObject {
 		this.height = height;
 		this.color = color;
 		this.img = img;
+		shouldRemove = false;
 
-		if (map == null) {
-			map = new DiepIOMap();	
-		}
-		mapDimensions = map.dimensions();
+		this.map = map;
+		//System.out.println("mapDimensions is "+map.dimensions());
 	}
-	
-	public GameObject(Location location, double width, double height) {
-		this(location, 0, 0, width, height, null, null);
+
+	public GameObject(Location location, double width, double height, DiepIOMap map) {
+		this(location, 0, 0, width, height, null, null, map);
 	}
 
 	public void move() {
@@ -47,34 +45,9 @@ public abstract class GameObject {
 		checkOffScreen();
 		// maybe "push" back onto the screen change direction if
 		// this object goes off the screen
-
-		checkCollision();
 	}
 
-	public void checkCollision() {
-		for (int i = 1; i < map.objects().size(); i++) {
-			GameObject go = map.objects().get(i);
-
-			/*
-			 * Check if the GameObject is a bullet by checking if the GameObject is originating 
-			 * from within 'this', if it is then return becuase we don't want a tank to shoot itself
-			 */
-			if (this.getBoundingRect().contains(new Point(go.getBoundingRect().x, go.getBoundingRect().y))) { return; }
-
-			if (this.getBoundingRect().intersects(go.getBoundingRect())) {
-				this.health -= 5;
-				go.health -=5;
-
-				if (this.health == 0) {
-					map.addToRemoveObjects(this);
-				}  
-				if (go.health == 0) {
-					map.addToRemoveObjects(go);
-				}
-				return;
-			} 
-		}
-	}
+	public abstract void checkCollision();
 
 	public abstract void checkOffScreen();
 
@@ -83,8 +56,27 @@ public abstract class GameObject {
 				(int) (location.getY()-height/2),
 				(int) width, (int) height);
 	}
-	
+
 	public abstract void draw(Graphics2D g);
+
+	public void markRemove() {
+		shouldRemove = true;
+	}
+
+	public boolean shouldRemove() {
+		return shouldRemove;
+	}
+	
+	public void checkHealth() {
+		if (health <= 0) {
+			markRemove();
+			System.out.println("Thing at "+location+" died");
+		}
+	}
+	
+	public DiepIOMap getMap() {
+		return map;
+	}
 }
 
 
