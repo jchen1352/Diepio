@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.RenderingHints;
 
 public class MovingObjectsPanel extends JPanel {
@@ -19,18 +21,17 @@ public class MovingObjectsPanel extends JPanel {
 	private DiepIOMap gm;
 	private Timer t;
 
-	public MovingObjectsPanel() {
-		this( new Dimension(800,600));
-	}
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
-		gm = new DiepIOMap(defaultDim);
+		System.out.println(defaultDim);
 		this.setPreferredSize(defaultDim);
+		
 		makeGameMap();
 		t.start();
 		setupMouseMotionListener();
 		setUpKeyMappings();
 		setUpClickListener();
+		
 	}
 
 	private void makeGameMap() {
@@ -38,8 +39,16 @@ public class MovingObjectsPanel extends JPanel {
 		t = new Timer(11, new ActionListener() {// fires off every 10 ms
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if (isShowing()) {
+					Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+					Point panelPosition = getLocationOnScreen();
+					gm.mouseMoved(mousePosition.x - panelPosition.x, mousePosition.y - panelPosition.y);
+				}
+				
 				gm.tick();// I tell the GameMap to tick... do what
 					// you do every time the clock goes off.
+				
+				
 				repaint();// naturally, we want to see the new view
 			}	
 		});
