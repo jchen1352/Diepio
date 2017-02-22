@@ -91,12 +91,28 @@ public class DiepIOMap {
 		playerTank.right();
 	}
 
-	public void playerForward() {
-		playerTank.forward();
+	public void playerUp() {
+		playerTank.up();
 	}
 
-	public void playerReverse() {
-		playerTank.reverse();
+	public void playerDown() {
+		playerTank.down();
+	}
+	
+	public void playerStopLeft() {
+		playerTank.stopLeft();
+	}
+
+	public void playerStopRight() {
+		playerTank.stopRight();
+	}
+
+	public void playerStopUp() {
+		playerTank.stopUp();
+	}
+
+	public void playerStopDown() {
+		playerTank.stopDown();
 	}
 
 	public Dimension dimensions() {
