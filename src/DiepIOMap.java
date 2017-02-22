@@ -56,12 +56,14 @@ public class DiepIOMap {
 	
 	int xStart, yStart, xEnd, yEnd;
 	public void mouseMoved(MouseEvent e) {
-		xEnd = e.getX();
-		yEnd = e.getY();
-
+		mouseMoved(e.getX(), e.getY());
+	}
+	
+	public void mouseMoved(int x, int y) {
+		xEnd = x;
+		yEnd = y;
 		xStart = (int) (playerTank.location().getX());
 		yStart = (int) (playerTank.location().getY());
-						
 		playerTank.aimWeapon(Math.atan2(yEnd - yStart, xEnd - xStart));
 	}
 
