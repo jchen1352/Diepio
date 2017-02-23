@@ -1,31 +1,38 @@
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.AbstractAction;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import javax.swing.Timer;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.swing.AbstractAction;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.Timer;
 
 public class MovingObjectsPanel extends JPanel {
 	
 	final Dimension defaultDim;// = new Dimension(800,600);
 	private DiepIOMap gm;
 	private Timer t;
+	//This set stores the directions corresponding to key presses.
+	//For example, if we press 'W', -Math.PI will be added to this set.
+	private Set<Double> inputDirections;
 
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
 		System.out.println(defaultDim);
 		this.setPreferredSize(defaultDim);
 		
+		inputDirections = new HashSet<Double>();
 		makeGameMap();
 		t.start();
 		setupMouseMotionListener();
@@ -105,7 +112,7 @@ public class MovingObjectsPanel extends JPanel {
 	
 	private void setUpKeyMappings() {
 
-		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W , 0, false),"up");
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false),"up");
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true),"stopUp");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false),"left");
@@ -120,56 +127,64 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("up",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerUp();
+				inputDirections.add(-Math.PI/2);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});		
 
 		this.getActionMap().put("left",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerLeft();
+				inputDirections.add(Math.PI);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});		
 
 		this.getActionMap().put("down",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerDown();
+				inputDirections.add(Math.PI/2);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});		
 
 		this.getActionMap().put("right",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerRight();
+				inputDirections.add(0.0);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});
 		
 		this.getActionMap().put("stopUp",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerStopUp();
+				inputDirections.remove(-Math.PI/2);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});		
 
 		this.getActionMap().put("stopLeft",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerStopLeft();
+				inputDirections.remove(Math.PI);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});		
 
 		this.getActionMap().put("stopDown",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerStopDown();
+				inputDirections.remove(Math.PI/2);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});		
 
 		this.getActionMap().put("stopRight",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.playerStopRight();
+				inputDirections.remove(0.0);
+				gm.playerUpdateMotion(inputDirections);
 			}
 		});
 

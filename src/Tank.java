@@ -1,7 +1,7 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.List;
-import java.awt.Color;
+import java.util.Set;
 
 public class Tank extends GameObject {
 
@@ -15,6 +15,28 @@ public class Tank extends GameObject {
 
 	public Bullet shoot() {
 		return weapon.shoot(new Location(location), 5);		
+	}
+	
+	public void updateMotion(Set<Double> directions) {
+		if (directions.isEmpty()) {
+			speed = 0;
+		}
+		else {
+			double dx = 0;
+			double dy = 0;
+			for (Double d : directions) {
+				dx += Math.cos(d);
+				dy += Math.sin(d);
+			}
+			if (Math.abs(dx)<.001 && Math.abs(dy)<.001) {
+				speed = 0;
+			}
+			else {
+				//System.out.println("dx,dy is "+dx+", "+dy);
+				direction = Math.atan2(dy, dx);
+				speed = 1;
+			}
+		}
 	}
 
 	public void up() {
@@ -42,27 +64,35 @@ public class Tank extends GameObject {
 	}
 	
 	public void stopUp() {
-		if (direction == -Math.PI/2) {
-			speed = 0;
-		}
+		stop();
+//		if (direction == -Math.PI/2) {
+//			speed = 0;
+//		}
 	}
 	
 	public void stopLeft() {
-		if (direction == Math.PI) {
-			speed = 0;
-		}
+		stop();
+//		if (direction == Math.PI) {
+//			speed = 0;
+//		}
 	}
 	
 	public void stopDown() {
-		if (direction == Math.PI/2) {
-			speed = 0;
-		}
+		stop();
+//		if (direction == Math.PI/2) {
+//			speed = 0;
+//		}
 	}
 	
 	public void stopRight() {
-		if (direction == 0) {
-			speed = 0;
-		}
+		stop();
+//		if (direction == 0) {
+//			speed = 0;
+//		}
+	}
+	
+	public void stop() {
+		speed = 0;
 	}
 
 	public void aimWeapon(double direction) {
@@ -75,9 +105,7 @@ public class Tank extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		if (!location.inMap(new Rectangle(map.dimensions()))) {
-			direction -= Math.PI;	// Turn the tank around
-		}
+		direction -= Math.PI;	// Turn the tank around
 	}
 
 	@Override

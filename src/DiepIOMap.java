@@ -1,15 +1,15 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.Dimension;
-import java.util.Iterator;
-import java.io.IOException;
+import java.util.Set;
+
 import javax.imageio.ImageIO;
-import java.net.URL;
-import java.awt.geom.AffineTransform;
-import java.awt.Color;
 
 public class DiepIOMap {
 
@@ -81,6 +81,10 @@ public class DiepIOMap {
 	
 	public void playerShoot() {
 		addGameObject(playerTank.shoot());
+	}
+	
+	public void playerUpdateMotion(Set<Double> directions) {
+		playerTank.updateMotion(directions);
 	}
 
 	public void playerLeft() {
