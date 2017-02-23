@@ -87,38 +87,6 @@ public class DiepIOMap {
 		playerTank.updateMotion(directions);
 	}
 
-	public void playerLeft() {
-		playerTank.left();
-	}
-
-	public void playerRight() {
-		playerTank.right();
-	}
-
-	public void playerUp() {
-		playerTank.up();
-	}
-
-	public void playerDown() {
-		playerTank.down();
-	}
-	
-	public void playerStopLeft() {
-		playerTank.stopLeft();
-	}
-
-	public void playerStopRight() {
-		playerTank.stopRight();
-	}
-
-	public void playerStopUp() {
-		playerTank.stopUp();
-	}
-
-	public void playerStopDown() {
-		playerTank.stopDown();
-	}
-
 	public Dimension dimensions() {
 		return panelDimension;
 	}
