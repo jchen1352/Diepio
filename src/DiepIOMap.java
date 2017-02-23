@@ -17,9 +17,9 @@ public class DiepIOMap {
 	private Tank playerTank;
 
 	//private static final Dimension MAP_DIMENSION = new Dimension(400,300);
-	private static final int NUM_SHAPES = 100;
+	private static final int NUM_SHAPES = 10 ;
 	private static final String BACKGROUND_IMAGE_FILE_NAME = "";
-	private static final int NUM_OPPONENTS = 100;
+	private static final int NUM_OPPONENTS = 8;
 
 	private Dimension panelDimension;
 	private static Image backgroundImage;
@@ -31,14 +31,29 @@ public class DiepIOMap {
 		addTank();
 		playerTank = (Tank) objects.get(0);
 		addShapes();
+		loadOpponents();
 	}
 
 	public void addGameObject(GameObject go) {
 		objects.add(go);
 	}
 	
+	public void loadOpponents() {
+		int currentOpponents = 0;
+
+		for (int i = 0; i < objects.size(); i++) {
+			if ((objects.get(i) instanceof Tank) && ( ((Tank) objects.get(i)).isOpponent() )) {
+				currentOpponents++;
+			}
+		}
+
+		for (int i = currentOpponents; i < NUM_OPPONENTS; i++) {
+			addGameObject(new Tank(new Location((int) (Math.random() * panelDimension.width), (int) (Math.random() * panelDimension.height)), 30, 30, this, true));
+		}
+	}
+
 	private void addTank() {
-		addGameObject(new Tank(new Location(30,30), 30, 30, this));
+		addGameObject(new Tank(new Location(30,30), 30, 30, this, false));
 	}
 	
 	public void openBackgroundImage() {
@@ -76,11 +91,14 @@ public class DiepIOMap {
 			go.checkHealth();
 		}
 
+		moveOpponents();
 		removeFromObjects();
+		loadOpponents();
 	}
 	
 	public void playerShoot() {
-		addGameObject(playerTank.shoot());
+		// addGameObject(playerTank.shoot());
+		playerTank.shoot();
 	}
 
 	public void playerLeft() {
@@ -98,25 +116,23 @@ public class DiepIOMap {
 	public void playerDown() {
 		playerTank.down();
 	}
-	
-	public void playerStopLeft() {
-		playerTank.stopLeft();
-	}
-
-	public void playerStopRight() {
-		playerTank.stopRight();
-	}
-
-	public void playerStopUp() {
-		playerTank.stopUp();
-	}
-
-	public void playerStopDown() {
-		playerTank.stopDown();
-	}
 
 	public Dimension dimensions() {
 		return panelDimension;
+	}
+
+	public void stop() {
+		playerTank.stop();
+	}
+
+	public void moveOpponents() {
+		for (int i = 0; i < objects.size(); i++) {
+			GameObject go = objects.get(i);
+			if (go instanceof Tank && ((Tank)go).isOpponent()) {
+				Tank t = (Tank) go;
+				t.opponentMove();
+			}
+		}
 	}
 
 	public void removeFromObjects() {
@@ -124,8 +140,7 @@ public class DiepIOMap {
 		while (i < objects.size()) {
 			if (objects.get(i).shouldRemove()) {
 				objects.remove(i);
-			}
-			else {
+			} else {
 				i++;
 			}
 		}

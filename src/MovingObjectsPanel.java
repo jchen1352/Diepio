@@ -145,33 +145,33 @@ public class MovingObjectsPanel extends JPanel {
 			}
 		});
 		
-		this.getActionMap().put("stopUp",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gm.playerStopUp();
-			}
-		});		
+		// this.getActionMap().put("stopUp",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.stop();
+		// 	}
+		// });		
 
-		this.getActionMap().put("stopLeft",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gm.playerStopLeft();
-			}
-		});		
+		// this.getActionMap().put("stopLeft",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.stop();
+		// 	}
+		// });		
 
-		this.getActionMap().put("stopDown",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gm.playerStopDown();
-			}
-		});		
+		// this.getActionMap().put("stopDown",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.stop();
+		// 	}
+		// });		
 
-		this.getActionMap().put("stopRight",new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gm.playerStopRight();
-			}
-		});
+		// this.getActionMap().put("stopRight",new AbstractAction(){
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		gm.stop();
+		// 	}
+		// });
 
 		this.requestFocusInWindow();		
 	}
@@ -183,6 +183,7 @@ public class MovingObjectsPanel extends JPanel {
 		// g2.scale(1, -1);
 		// g2.translate(0, -getHeight());
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		// g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
 		gm.draw(g2);
 	}

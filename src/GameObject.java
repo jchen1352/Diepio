@@ -78,5 +78,3 @@ public abstract class GameObject {
 		return map;
 	}
 }
-
-

@@ -6,41 +6,61 @@ import java.awt.Color;
 public class Tank extends GameObject {
 
 	private Weapon weapon;
+	private boolean isOpponent;
+	private OpponentLogic opponentLogic;
 
-	public Tank(Location location, double width, double height, DiepIOMap map) {
+	public Tank(Location location, double width, double height, DiepIOMap map, boolean isOpponent) {
 		super(location, width, height, map);
 		weapon = new Weapon(direction, this);
 		health = 100;
+		this.isOpponent = isOpponent;
+
+		if (isOpponent) {
+			this.opponentLogic = new OpponentLogic(map, this);
+		}
+
+		// System.out.println(opponentLogic);
+
 	}
 
-	public Bullet shoot() {
-		return weapon.shoot(new Location(location), 5);		
+	public void shoot() {
+		// return weapon.shoot(new Location(location), 5);	
+		map.addGameObject(weapon.shoot(new Location(location), 5));
+	}
+
+	public boolean isOpponent() {
+		return isOpponent;
 	}
 
 	public void up() {
 		speed = 1;
 		direction = -Math.PI/2;
-		//this.move();
+		this.move();
 	}
 
 	public void left() {
 		speed = 1;
 		direction = Math.PI;
-		//this.move();
+		this.move();
 	}
 
 	public void down() {
 		speed = 1;
 		direction = Math.PI/2;
-		//this.move();
+		this.move();
 	}
 	
 	public void right() {
 		speed = 1;
 		direction = 0;
-		//this.move();
+		this.move();
 	}
 	
+	public void stop() {
+		direction -= Math.PI;
+		speed = 0;
+	}
+
 	public void stopUp() {
 		if (direction == -Math.PI/2) {
 			speed = 0;
@@ -71,6 +91,10 @@ public class Tank extends GameObject {
 
 	public Location location() {
 		return location;
+	}
+
+	public void opponentMove() {
+		opponentLogic.opponentMove();
 	}
 
 	@Override
