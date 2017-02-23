@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.net.URL;
 import java.awt.geom.AffineTransform;
 import java.awt.Color;
+import java.util.Set;
 
 public class DiepIOMap {
 
@@ -19,7 +20,7 @@ public class DiepIOMap {
 	//private static final Dimension MAP_DIMENSION = new Dimension(400,300);
 	private static final int NUM_SHAPES = 10 ;
 	private static final String BACKGROUND_IMAGE_FILE_NAME = "";
-	private static final int NUM_OPPONENTS = 8;
+	private static final int NUM_OPPONENTS = 10;
 
 	private Dimension panelDimension;
 	private static Image backgroundImage;
@@ -101,28 +102,12 @@ public class DiepIOMap {
 		playerTank.shoot();
 	}
 
-	public void playerLeft() {
-		playerTank.left();
-	}
-
-	public void playerRight() {
-		playerTank.right();
-	}
-
-	public void playerUp() {
-		playerTank.up();
-	}
-
-	public void playerDown() {
-		playerTank.down();
+	public void playerUpdateMotion(Set<Double> directions) {
+		playerTank.updateMotion(directions);
 	}
 
 	public Dimension dimensions() {
 		return panelDimension;
-	}
-
-	public void stop() {
-		playerTank.stop();
 	}
 
 	public void moveOpponents() {

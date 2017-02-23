@@ -1,7 +1,7 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.List;
-import java.awt.Color;
+import java.util.Set;
 
 public class Tank extends GameObject {
 
@@ -32,56 +32,25 @@ public class Tank extends GameObject {
 		return isOpponent;
 	}
 
-	public void up() {
-		speed = 1;
-		direction = -Math.PI/2;
-		this.move();
-	}
-
-	public void left() {
-		speed = 1;
-		direction = Math.PI;
-		this.move();
-	}
-
-	public void down() {
-		speed = 1;
-		direction = Math.PI/2;
-		this.move();
-	}
-	
-	public void right() {
-		speed = 1;
-		direction = 0;
-		this.move();
-	}
-	
-	public void stop() {
-		direction -= Math.PI;
-		speed = 0;
-	}
-
-	public void stopUp() {
-		if (direction == -Math.PI/2) {
+	public void updateMotion(Set<Double> directions) {
+		if (directions.isEmpty()) {
 			speed = 0;
 		}
-	}
-	
-	public void stopLeft() {
-		if (direction == Math.PI) {
-			speed = 0;
-		}
-	}
-	
-	public void stopDown() {
-		if (direction == Math.PI/2) {
-			speed = 0;
-		}
-	}
-	
-	public void stopRight() {
-		if (direction == 0) {
-			speed = 0;
+		else {
+			double dx = 0;
+			double dy = 0;
+			for (Double d : directions) {
+				dx += Math.cos(d);
+				dy += Math.sin(d);
+			}
+			if (Math.abs(dx)<.001 && Math.abs(dy)<.001) {
+				speed = 0;
+			}
+			else {
+				//System.out.println("dx,dy is "+dx+", "+dy);
+				direction = Math.atan2(dy, dx);
+				speed = 1;
+			}
 		}
 	}
 
@@ -99,9 +68,7 @@ public class Tank extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		if (!location.inMap(new Rectangle(map.dimensions()))) {
-			direction -= Math.PI;	// Turn the tank around
-		}
+		direction -= Math.PI;	// Turn the tank around
 	}
 
 	@Override

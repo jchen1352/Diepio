@@ -20,9 +20,7 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		if (!location.inMap(new Rectangle(map.dimensions()))) {
-			markRemove();
-		}
+		markRemove();
 	}
 
 	@Override

@@ -38,13 +38,18 @@ public abstract class GameObject {
 	}
 
 	public void move() {
-		//System.out.println("before move, location is "+location+" and speed is "+speed);
-		location.addVector(speed, direction);
-		//System.out.println("after move, location is "+location+" and speed is "+speed);
+		if (willMoveOffscreen()) {
+			checkOffScreen();
+		}
+		else {
+			location.addVector(speed, direction);
+		}
+	}
 
-		checkOffScreen();
-		// maybe "push" back onto the screen change direction if
-		// this object goes off the screen
+	private boolean willMoveOffscreen() {
+		Location loc = new Location(location);
+		loc.addVector(speed, direction);
+		return !loc.inMap(new Rectangle(map.dimensions()));
 	}
 
 	public abstract void checkCollision();
