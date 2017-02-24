@@ -2,25 +2,28 @@
 public class OpponentLogic {
 
 	private static DiepIOMap map;
-	private Tank oppponentTank;
+	private Tank opponentTank;
 
-	public OpponentLogic(DiepIOMap map, Tank oppponentTank) {
+	private int numShots;
+
+	public OpponentLogic(DiepIOMap map, Tank opponentTank) {
 		if (this.map == null) {
 			this.map = map;
 		}
-		this.oppponentTank = oppponentTank;
+		numShots = 0;
+		this.opponentTank = opponentTank;
 	}
 
 	public void opponentMove() {
 		GameObject closestObject = map.objects().get(0);
-		double closestDistance = Math.sqrt(Math.pow(closestObject.location.getX() - oppponentTank.location.getX(), 2) + Math.pow(closestObject.location.getY() - oppponentTank.location.getY(), 2));
+		double closestDistance = Math.sqrt(Math.pow(closestObject.location.getX() - opponentTank.location.getX(), 2) + Math.pow(closestObject.location.getY() - opponentTank.location.getY(), 2));
 
 		for (int i = 0; i < map.objects().size(); i++) {
 			GameObject go = map.objects().get(i);
-			
-			if (go.equals(oppponentTank)) { continue; }
 
-			double distance = Math.sqrt(Math.pow(go.location.getX() - oppponentTank.location.getX(), 2) + Math.pow(go.location.getY() - oppponentTank.location.getY(), 2));	
+			if ((go.equals(opponentTank)) || (go instanceof Bullet)) { continue; }
+
+			double distance = Math.sqrt(Math.pow(go.location.getX() - opponentTank.location.getX(), 2) + Math.pow(go.location.getY() - opponentTank.location.getY(), 2));	
 			if (distance < closestDistance) {
 				closestDistance = distance;
 				closestObject = go;
@@ -30,23 +33,30 @@ public class OpponentLogic {
 		double closestX = closestObject.location.getX();
 		double closestY = closestObject.location.getY();
 
-		double opponentX = oppponentTank.location.getX();
-		double opponentY = oppponentTank.location.getY();
+		double opponentX = opponentTank.location.getX();
+		double opponentY = opponentTank.location.getY();
 
-		double angle = Math.atan2(closestX - opponentY, closestY - opponentX);
+		double angle = Math.atan2(closestY - opponentY, closestX - opponentX);
 
-		if (closestDistance < 80) {
-
-			oppponentTank.aimWeapon( angle );
-			oppponentTank.shoot();
-
-		} else {
-
-			oppponentTank.speed = 1;
-			oppponentTank.direction = angle;
-			oppponentTank.move();
+		if (closestDistance < 200 && (shouldShoot())) {
+			opponentTank.aimWeapon(angle);
+			opponentTank.shoot();
+			numShots++;
+		} else if (closestDistance > 200 && (!shouldShoot())) {
+			opponentTank.speed = 1;
+			opponentTank.direction = angle;
+			opponentTank.move();
+		
 		}
-
 	}
+
+	private boolean shouldShoot() {
+		if (numShots == (int)(Math.random() * 20)) {
+			numShots = 0;
+			return true;
+		}
+		return false;
+	}
+
 }
 

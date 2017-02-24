@@ -35,8 +35,7 @@ public class Tank extends GameObject {
 	public void updateMotion(Set<Double> directions) {
 		if (directions.isEmpty()) {
 			speed = 0;
-		}
-		else {
+		} else {
 			double dx = 0;
 			double dy = 0;
 			for (Double d : directions) {
@@ -45,13 +44,30 @@ public class Tank extends GameObject {
 			}
 			if (Math.abs(dx)<.001 && Math.abs(dy)<.001) {
 				speed = 0;
-			}
-			else {
+			} else {
 				//System.out.println("dx,dy is "+dx+", "+dy);
 				direction = Math.atan2(dy, dx);
 				speed = 1;
+				System.out.println("Dy: " + dy + " dx: " + dx);
 			}
+
 		}
+		// if (!directions.isEmpty()) {
+		// 	speed = 0;
+		// 	double dx = 0;
+		// 	double dy = 0;
+		// 	for (Double d : directions) {
+		// 		dx += Math.cos(d);
+		// 		dy += Math.sin(d);
+		// 	}
+		// 	if (Math.abs(dx) < 1 && Math.abs(dy)<1) {
+		// 		speed = 0;
+		// 	} else {
+		// 		//System.out.println("dx,dy is "+dx+", "+dy);
+		// 		direction = Math.atan2(dy, dx);
+		// 		speed = 1;
+		// 	}
+		// }
 	}
 
 	public void aimWeapon(double direction) {
@@ -75,17 +91,20 @@ public class Tank extends GameObject {
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		Rectangle bound = getBoundingRect();
+		// g.drawRect(bound.x, bound.y, bound.width, bound.height);
 		g.fillRect(bound.x, bound.y, bound.width, bound.height);
-		// g.fillRect(bound.x, bound.y, bound.width, bound.height);
-		Rectangle boundingRect = getBoundingRect();
-		g.drawRect(boundingRect.x, boundingRect.y, boundingRect.width, boundingRect.height);
+
+		g.setColor(Color.GREEN);
+		g.fillRect(bound.x, bound.y + 31, (int)(health) / 3, 4);
+		// g.drawRect(bound.x, bound.y + 32, bound.width, 5);
+
 	}
 
 	@Override
 	public void checkCollision() {
 		for (int i = 0; i < map.objects().size(); i++) {
 			GameObject go = map.objects().get(i);
-			if (this==go) continue;
+			if (this == go) continue;
 			if (go instanceof Bullet) {
 				checkCollision((Bullet) go);
 				continue;

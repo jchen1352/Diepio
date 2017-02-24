@@ -53,8 +53,10 @@ public class Shape extends GameObject {
 		}
 
 		g.fillPolygon(shape);
-		Rectangle boundingRect = getBoundingRect();
-		g.drawRect(boundingRect.x, boundingRect.y, boundingRect.width, boundingRect.height);
+
+		Rectangle bound = getBoundingRect();
+		g.setColor(Color.GREEN);
+		g.fillRect(bound.x, bound.y + 31, (int)(health) / 3, 4);
 	}
 
 	@Override

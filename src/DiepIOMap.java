@@ -11,6 +11,7 @@ import java.net.URL;
 import java.awt.geom.AffineTransform;
 import java.awt.Color;
 import java.util.Set;
+import java.util.HashSet;
 
 public class DiepIOMap {
 
@@ -18,9 +19,9 @@ public class DiepIOMap {
 	private Tank playerTank;
 
 	//private static final Dimension MAP_DIMENSION = new Dimension(400,300);
-	private static final int NUM_SHAPES = 10 ;
+	private static final int NUM_SHAPES = 70;
 	private static final String BACKGROUND_IMAGE_FILE_NAME = "";
-	private static final int NUM_OPPONENTS = 10;
+	private static final int NUM_OPPONENTS = 1;
 
 	private Dimension panelDimension;
 	private static Image backgroundImage;
@@ -87,14 +88,17 @@ public class DiepIOMap {
 		for (GameObject go : objects) {
 			go.move();
 		}
+				
+		moveOpponents();
+
 		for (GameObject go : objects) {
 			go.checkCollision();
 			go.checkHealth();
 		}
 
-		moveOpponents();
 		removeFromObjects();
 		loadOpponents();
+		addShapes();
 	}
 	
 	public void playerShoot() {
@@ -141,7 +145,15 @@ public class DiepIOMap {
 	}
 
 	public void addShapes() {
-		for (int i = 0; i < NUM_SHAPES; i++) {
+		int currShapes = 0;
+
+		for (int i = 0; i < objects.size(); i++) {
+			if (objects.get(i) instanceof Shape) {
+				currShapes++;
+			}
+		}
+
+		for (int i = currShapes; i < NUM_SHAPES; i++) {
 			switch ((int) (Math.random()*3)) {
 				case 0:
 					objects.add(new Shape(new Location((int) (Math.random() * panelDimension.width), (int) (Math.random() * panelDimension.height)), Type.SQUARE, this));
