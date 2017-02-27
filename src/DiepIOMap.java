@@ -104,6 +104,8 @@ public class DiepIOMap {
 		}
 				
 		moveOpponents();
+		
+		playerTank.shoot();
 
 		for (GameObject go : objects) {
 			go.checkCollision();
@@ -116,9 +118,9 @@ public class DiepIOMap {
 		checkLostGame();
 	}
 	
-	public void playerShoot() {
+	public void playerShoot(boolean shouldShoot) {
 		// addGameObject(playerTank.shoot());
-		playerTank.shoot();
+		playerTank.updateShooting(shouldShoot);
 	}
 
 	public void playerUpdateMotion(Set<Double> directions) {
@@ -204,15 +206,15 @@ public class DiepIOMap {
 		// g.translate();
 
 		//	Hypotenuse
-		g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
-
-		//	Horizontal line
-		g.drawLine(xStart, yStart, xEnd, yStart);
-
-		//	Vertical line
-		g.drawLine(xEnd, yStart, xEnd, yEnd);
-
-		g.drawImage(backgroundImage, 0, 0, null);
+//		g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
+//
+//		//	Horizontal line
+//		g.drawLine(xStart, yStart, xEnd, yStart);
+//
+//		//	Vertical line
+//		g.drawLine(xEnd, yStart, xEnd, yEnd);
+//
+//		g.drawImage(backgroundImage, 0, 0, null);
 
 	}
 

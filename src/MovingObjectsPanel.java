@@ -101,13 +101,14 @@ public class MovingObjectsPanel extends JPanel {
 					gm = new DiepIOMap(defaultDim);
 					return;	
 				}
-				gm.playerShoot();
+				// gm.playerShoot();
+				gm.playerShoot(true);
 				repaint();
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				gm.playerShoot();
+				gm.playerShoot(false);
 				repaint();		
 			}
 

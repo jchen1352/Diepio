@@ -48,6 +48,12 @@ public class Location {
 		}
 		return false;
 	}
+	
+	public double distanceTo(Location other) {
+		double otherX = other.x;
+		double otherY = other.y;
+		return Math.sqrt(Math.pow(otherX - x, 2) + Math.pow(otherY - y, 2));
+	}
 
 	@Override
 	public int hashCode() {

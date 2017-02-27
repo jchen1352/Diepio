@@ -17,6 +17,7 @@ public class Tank extends GameObject {
 
 		if (isOpponent) {
 			this.opponentLogic = new OpponentLogic(map, this);
+			weapon.setFiringStatus(true);
 		}
 
 		// System.out.println(opponentLogic);
@@ -25,7 +26,14 @@ public class Tank extends GameObject {
 
 	public void shoot() {
 		// return weapon.shoot(new Location(location), 5);	
-		map.addGameObject(weapon.shoot(new Location(location), 5));
+		if (weapon.readyToFire()) {
+			map.addGameObject(weapon.shoot(new Location(location), 5));
+			weapon.resetCooldown();
+		}
+	}
+	
+	public void updateShooting(boolean shouldShoot) {
+		weapon.setFiringStatus(shouldShoot);
 	}
 
 	public boolean isOpponent() {
@@ -121,6 +129,13 @@ public class Tank extends GameObject {
 		if (getBoundingRect().intersects(b.getBoundingRect())) {
 			health -= 5;
 		}
+	}
+
+	@Override
+	public void move() {
+		// TODO Auto-generated method stub
+		super.move();
+		weapon.tickCooldown();
 	}
 
 }
