@@ -1,16 +1,13 @@
-
 public class OpponentLogic {
 
-	private static DiepIOMap map;
+	private DiepIOMap map;
 	private Tank opponentTank;
 
 	private int numShots;
 
 	public OpponentLogic(DiepIOMap map, Tank opponentTank) {
-		if (this.map == null) {
-			this.map = map;
-		}
-		numShots = 0;
+		this.map = map;
+		this.numShots = 0;
 		this.opponentTank = opponentTank;
 	}
 
@@ -42,11 +39,10 @@ public class OpponentLogic {
 			opponentTank.aimWeapon(angle);
 			opponentTank.shoot();
 			numShots++;
-		} else if (closestDistance > 200 && (!shouldShoot())) {
+		} else if (closestDistance > 200) {
 			opponentTank.speed = 1;
 			opponentTank.direction = angle;
 			opponentTank.move();
-		
 		}
 	}
 
@@ -59,4 +55,3 @@ public class OpponentLogic {
 	}
 
 }
-

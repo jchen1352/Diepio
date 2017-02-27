@@ -27,21 +27,22 @@ public abstract class GameObject {
 		this.height = height;
 		this.color = color;
 		this.img = img;
-		shouldRemove = false;
-
+		this.shouldRemove = false;
 		this.map = map;
-		//System.out.println("mapDimensions is "+map.dimensions());
 	}
 
 	public GameObject(Location location, double width, double height, DiepIOMap map) {
 		this(location, 0, 0, width, height, null, null, map);
 	}
 
+	public double health() {
+		return health;
+	}
+
 	public void move() {
 		if (willMoveOffscreen()) {
 			checkOffScreen();
-		}
-		else {
+		} else {
 			location.addVector(speed, direction);
 		}
 	}

@@ -17,23 +17,24 @@ public class DiepIOMap {
 
 	private List<GameObject> objects;
 	private Tank playerTank;
+	private boolean lostGame;
 
-	//private static final Dimension MAP_DIMENSION = new Dimension(400,300);
 	private static final int NUM_SHAPES = 70;
 	private static final String BACKGROUND_IMAGE_FILE_NAME = "";
-	private static final int NUM_OPPONENTS = 1;
+	private static final int NUM_OPPONENTS = 15;
 
 	private Dimension panelDimension;
 	private static Image backgroundImage;
 
 	public DiepIOMap(Dimension panelDimension) {
-		this.panelDimension = panelDimension;
+		this.panelDimension = panelDimension;	
+		
 		objects = new ArrayList<GameObject>();
 		openBackgroundImage();
 		addTank();
 		playerTank = (Tank) objects.get(0);
-		addShapes();
 		loadOpponents();
+		addShapes();
 	}
 
 	public void addGameObject(GameObject go) {
@@ -43,9 +44,11 @@ public class DiepIOMap {
 	public void loadOpponents() {
 		int currentOpponents = 0;
 
-		for (int i = 0; i < objects.size(); i++) {
-			if ((objects.get(i) instanceof Tank) && ( ((Tank) objects.get(i)).isOpponent() )) {
-				currentOpponents++;
+		if (objects.size() > 1) {
+			for (int i = 0; i < objects.size(); i++) {
+				if ((objects.get(i) instanceof Tank) && ( ((Tank) objects.get(i)).isOpponent() )) {
+					currentOpponents++;
+				}
 			}
 		}
 
@@ -84,6 +87,17 @@ public class DiepIOMap {
 		playerTank.aimWeapon(Math.atan2(yEnd - yStart, xEnd - xStart));
 	}
 
+	private void checkLostGame() {
+		if (playerTank.health() <= 0) {
+			objects.clear();	
+			lostGame = true;
+		}
+	}
+
+	public boolean lostGame() {
+		return lostGame;
+	}
+
 	public void tick() {
 		for (GameObject go : objects) {
 			go.move();
@@ -99,6 +113,7 @@ public class DiepIOMap {
 		removeFromObjects();
 		loadOpponents();
 		addShapes();
+		checkLostGame();
 	}
 	
 	public void playerShoot() {
@@ -174,6 +189,11 @@ public class DiepIOMap {
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLACK);
+		
+		if (lostGame == true) {
+			g.drawString("Game Over, click to restart", (panelDimension.width / 2), panelDimension.height / 2);
+		}
+
 		for (GameObject go : objects) {
 			go.draw(g);
 		}

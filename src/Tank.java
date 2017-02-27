@@ -33,41 +33,40 @@ public class Tank extends GameObject {
 	}
 
 	public void updateMotion(Set<Double> directions) {
-		if (directions.isEmpty()) {
-			speed = 0;
-		} else {
-			double dx = 0;
-			double dy = 0;
-			for (Double d : directions) {
-				dx += Math.cos(d);
-				dy += Math.sin(d);
-			}
-			if (Math.abs(dx)<.001 && Math.abs(dy)<.001) {
-				speed = 0;
-			} else {
-				//System.out.println("dx,dy is "+dx+", "+dy);
-				direction = Math.atan2(dy, dx);
-				speed = 1;
-				System.out.println("Dy: " + dy + " dx: " + dx);
-			}
-
-		}
-		// if (!directions.isEmpty()) {
+		// if (directions.isEmpty()) {
 		// 	speed = 0;
+		// } else {
 		// 	double dx = 0;
 		// 	double dy = 0;
 		// 	for (Double d : directions) {
 		// 		dx += Math.cos(d);
 		// 		dy += Math.sin(d);
 		// 	}
-		// 	if (Math.abs(dx) < 1 && Math.abs(dy)<1) {
+		// 	if (Math.abs(dx)<.001 && Math.abs(dy)<.001) {
 		// 		speed = 0;
 		// 	} else {
 		// 		//System.out.println("dx,dy is "+dx+", "+dy);
 		// 		direction = Math.atan2(dy, dx);
 		// 		speed = 1;
+		// 		System.out.println("Dy: " + dy + " dx: " + dx);
 		// 	}
 		// }
+		if (!directions.isEmpty()) {
+			speed = 0;
+			double dx = 0;
+			double dy = 0;
+			for (Double d : directions) {
+				dx += Math.cos(d);
+				dy += Math.sin(d);
+			}
+			if (Math.abs(dx) < 1 && Math.abs(dy)<1) {
+				speed = 0;
+			} else {
+				//System.out.println("dx,dy is "+dx+", "+dy);
+				direction = Math.atan2(dy, dx);
+				speed = 1;
+			}
+		}
 	}
 
 	public void aimWeapon(double direction) {

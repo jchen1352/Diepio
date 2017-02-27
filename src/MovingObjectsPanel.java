@@ -97,6 +97,10 @@ public class MovingObjectsPanel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent click) {
+				if (gm.lostGame()) {
+					gm = new DiepIOMap(defaultDim);
+					return;	
+				}
 				gm.playerShoot();
 				repaint();
 			}
