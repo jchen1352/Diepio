@@ -1,29 +1,27 @@
 
 public class OpponentLogic {
 
-	private static DiepIOMap map;
+	private DiepIOMap map;
 	private Tank opponentTank;
 
 	private int numShots;
 
 	public OpponentLogic(DiepIOMap map, Tank opponentTank) {
-		if (this.map == null) {
-			this.map = map;
-		}
+		this.map = map;
 		numShots = 0;
 		this.opponentTank = opponentTank;
 	}
 
 	public void opponentMove() {
 		GameObject closestObject = map.objects().get(0);
-		double closestDistance = Math.sqrt(Math.pow(closestObject.location.getX() - opponentTank.location.getX(), 2) + Math.pow(closestObject.location.getY() - opponentTank.location.getY(), 2));
+		double closestDistance = opponentTank.location.distanceTo(closestObject.location);
 
 		for (int i = 0; i < map.objects().size(); i++) {
 			GameObject go = map.objects().get(i);
 
 			if ((go.equals(opponentTank)) || (go instanceof Bullet)) { continue; }
 
-			double distance = Math.sqrt(Math.pow(go.location.getX() - opponentTank.location.getX(), 2) + Math.pow(go.location.getY() - opponentTank.location.getY(), 2));	
+			double distance = opponentTank.location.distanceTo(go.location);
 			if (distance < closestDistance) {
 				closestDistance = distance;
 				closestObject = go;

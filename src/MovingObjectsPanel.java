@@ -97,13 +97,13 @@ public class MovingObjectsPanel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent click) {
-				gm.playerShoot();
+				gm.playerShoot(true);
 				repaint();
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				gm.playerShoot();
+				gm.playerShoot(false);
 				repaint();		
 			}
 

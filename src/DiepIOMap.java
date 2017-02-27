@@ -21,7 +21,7 @@ public class DiepIOMap {
 	//private static final Dimension MAP_DIMENSION = new Dimension(400,300);
 	private static final int NUM_SHAPES = 70;
 	private static final String BACKGROUND_IMAGE_FILE_NAME = "";
-	private static final int NUM_OPPONENTS = 1;
+	private static final int NUM_OPPONENTS = 10;
 
 	private Dimension panelDimension;
 	private static Image backgroundImage;
@@ -90,6 +90,8 @@ public class DiepIOMap {
 		}
 				
 		moveOpponents();
+		
+		playerTank.shoot();
 
 		for (GameObject go : objects) {
 			go.checkCollision();
@@ -101,9 +103,9 @@ public class DiepIOMap {
 		addShapes();
 	}
 	
-	public void playerShoot() {
+	public void playerShoot(boolean shouldShoot) {
 		// addGameObject(playerTank.shoot());
-		playerTank.shoot();
+		playerTank.updateShooting(shouldShoot);
 	}
 
 	public void playerUpdateMotion(Set<Double> directions) {
@@ -184,15 +186,15 @@ public class DiepIOMap {
 		// g.translate();
 
 		//	Hypotenuse
-		g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
-
-		//	Horizontal line
-		g.drawLine(xStart, yStart, xEnd, yStart);
-
-		//	Vertical line
-		g.drawLine(xEnd, yStart, xEnd, yEnd);
-
-		g.drawImage(backgroundImage, 0, 0, null);
+//		g.drawLine((int)xStart, (int)yStart, (int)xEnd, (int)yEnd);
+//
+//		//	Horizontal line
+//		g.drawLine(xStart, yStart, xEnd, yStart);
+//
+//		//	Vertical line
+//		g.drawLine(xEnd, yStart, xEnd, yEnd);
+//
+//		g.drawImage(backgroundImage, 0, 0, null);
 
 	}
 
