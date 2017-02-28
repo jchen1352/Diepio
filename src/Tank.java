@@ -99,6 +99,9 @@ public class Tank extends GameObject {
 		g.setColor(Color.BLACK);
 		Rectangle bound = getBoundingRect();
 		// g.drawRect(bound.x, bound.y, bound.width, bound.height);
+		if (!isOpponent) {
+			g.setColor(Color.CYAN);
+		}
 		g.fillRect(bound.x, bound.y, bound.width, bound.height);
 
 		g.setColor(Color.GREEN);
