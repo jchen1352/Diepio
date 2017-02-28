@@ -3,17 +3,22 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 public class Tank extends GameObject {
 
 	private Weapon weapon;
 	private boolean isOpponent;
 	private OpponentLogic opponentLogic;
+	private int numKills;
 
+	
 	public Tank(Location location, double width, double height, DiepIOMap map, boolean isOpponent) {
 		super(location, width, height, map);
 		weapon = new Weapon(direction, this);
 		health = 100;
 		this.isOpponent = isOpponent;
+		numKills = 0;
 
 		if (isOpponent) {
 			this.opponentLogic = new OpponentLogic(map, this);
@@ -25,13 +30,22 @@ public class Tank extends GameObject {
 	}
 
 	public void shoot() {
-		// return weapon.shoot(new Location(location), 5);	
+		// return weapon.shoot(new Location(location), 5);
 		if (weapon.readyToFire()) {
-			map.addGameObject(weapon.shoot(new Location(location), 5));
+			map.addGameObject(weapon.shoot(new Location(location), getBulletSpeed()));
 			weapon.resetCooldown();
 		}
 	}
+
+	public void incNumKills() {
+		numKills++;
+	}
+
+	public double getBulletSpeed(){
+		return 5 + (int)numKills/5;
+	}
 	
+
 	public void updateShooting(boolean shouldShoot) {
 		weapon.setFiringStatus(shouldShoot);
 	}
@@ -50,31 +64,31 @@ public class Tank extends GameObject {
 				dx += Math.cos(d);
 				dy += Math.sin(d);
 			}
-			if (Math.abs(dx)<.001 && Math.abs(dy)<.001) {
+			if (Math.abs(dx) < .001 && Math.abs(dy) < .001) {
 				speed = 0;
 			} else {
-				//System.out.println("dx,dy is "+dx+", "+dy);
+				// System.out.println("dx,dy is "+dx+", "+dy);
 				direction = Math.atan2(dy, dx);
 				speed = 1;
-				System.out.println("Dy: " + dy + " dx: " + dx);
+//				System.out.println("Dy: " + dy + " dx: " + dx);
 			}
 
 		}
 		// if (!directions.isEmpty()) {
-		// 	speed = 0;
-		// 	double dx = 0;
-		// 	double dy = 0;
-		// 	for (Double d : directions) {
-		// 		dx += Math.cos(d);
-		// 		dy += Math.sin(d);
-		// 	}
-		// 	if (Math.abs(dx) < 1 && Math.abs(dy)<1) {
-		// 		speed = 0;
-		// 	} else {
-		// 		//System.out.println("dx,dy is "+dx+", "+dy);
-		// 		direction = Math.atan2(dy, dx);
-		// 		speed = 1;
-		// 	}
+		// speed = 0;
+		// double dx = 0;
+		// double dy = 0;
+		// for (Double d : directions) {
+		// dx += Math.cos(d);
+		// dy += Math.sin(d);
+		// }
+		// if (Math.abs(dx) < 1 && Math.abs(dy)<1) {
+		// speed = 0;
+		// } else {
+		// //System.out.println("dx,dy is "+dx+", "+dy);
+		// direction = Math.atan2(dy, dx);
+		// speed = 1;
+		// }
 		// }
 	}
 
@@ -92,7 +106,7 @@ public class Tank extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		direction -= Math.PI;	// Turn the tank around
+		direction -= Math.PI; // Turn the tank around
 	}
 
 	@Override
@@ -103,7 +117,7 @@ public class Tank extends GameObject {
 		g.fillRect(bound.x, bound.y, bound.width, bound.height);
 
 		g.setColor(Color.GREEN);
-		g.fillRect(bound.x, bound.y + 31, (int)(health) / 3, 4);
+		g.fillRect(bound.x, bound.y + 31, (int) (health) / 3, 4);
 		// g.drawRect(bound.x, bound.y + 32, bound.width, 5);
 
 	}
@@ -112,7 +126,8 @@ public class Tank extends GameObject {
 	public void checkCollision() {
 		for (int i = 0; i < map.objects().size(); i++) {
 			GameObject go = map.objects().get(i);
-			if (this == go) continue;
+			if (this == go)
+				continue;
 			if (go instanceof Bullet) {
 				checkCollision((Bullet) go);
 				continue;
@@ -122,13 +137,18 @@ public class Tank extends GameObject {
 			}
 		}
 	}
-	
+
 	private void checkCollision(Bullet b) {
 		if (b.isOwner(this)) {
 			return;
 		}
 		if (getBoundingRect().intersects(b.getBoundingRect())) {
 			health -= 5;
+			if (health <= 0) {
+				b.getOwner().incNumKills();
+				if (!b.getOwner().isOpponent)
+					System.out.println("MY NUMBER KILLS IS: " + b.getOwner().numKills);
+			}
 		}
 	}
 

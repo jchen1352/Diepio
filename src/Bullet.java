@@ -17,6 +17,10 @@ public class Bullet extends GameObject {
 	public boolean isOwner(Tank tank) {
 		return owner == tank;
 	}
+	
+	public Tank getOwner(){
+		return owner;
+	}
 
 	@Override
 	public void checkOffScreen() {
@@ -48,7 +52,7 @@ public class Bullet extends GameObject {
 				// System.out.println("Bullet at "+location+" should be removed");
 				// System.out.println("Bullet hit thing at "+go.location);
 				// System.out.println(go.getBoundingRect().intersects(getBoundingRect()));
-				markRemove();
+				health-=5;
 			}
 		}
 	}
@@ -58,7 +62,7 @@ public class Bullet extends GameObject {
 			return;
 		}
 		if (getBoundingRect().intersects(t.getBoundingRect())) {
-			markRemove();
+			health-=5;
 		}
 	}
 

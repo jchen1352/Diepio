@@ -75,7 +75,7 @@ public abstract class GameObject {
 	public void checkHealth() {
 		if (health <= 0) {
 			markRemove();
-			System.out.println("Thing at "+location+" died");
+//			System.out.println("Thing at "+location+" died");
 		}
 	}
 	

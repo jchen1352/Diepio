@@ -87,9 +87,7 @@ public class DiepIOMap {
 	public void tick() {
 		for (GameObject go : objects) {
 			go.move();
-		}
-				
-		moveOpponents();
+		}		moveOpponents();
 		
 		playerTank.shoot();
 
@@ -128,6 +126,7 @@ public class DiepIOMap {
 
 	public void removeFromObjects() {
 		int i = 0;
+
 		while (i < objects.size()) {
 			if (objects.get(i).shouldRemove()) {
 				objects.remove(i);
